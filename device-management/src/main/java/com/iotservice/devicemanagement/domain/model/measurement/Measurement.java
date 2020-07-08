@@ -1,23 +1,29 @@
-package com.iotservice.devicemanagement.domain.model;
+package com.iotservice.devicemanagement.domain.model.measurement;
+
+import com.iotservice.devicemanagement.domain.model.device.DeviceId;
+import lombok.Getter;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
+@Table(name = "measurements")
+@Getter
 public class Measurement {
 
+    @Version
+    private long version;
+
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private long id;
+    private MeasurementId id;
 
-    @ManyToOne
-    private Device device;
+    private DeviceId device;
 
-    private long timestamp;
+    private MeasurementTimestamp timestamp;
 
-    private int count;
+    private MeasurementCount count;
 
-    public Measurement(long timestamp, int count, Device device) {
+    public Measurement(MeasurementTimestamp timestamp, MeasurementCount count, DeviceId device) {
         this.timestamp = timestamp;
         this.count = count;
         this.device = device;
@@ -26,31 +32,15 @@ public class Measurement {
     public Measurement() {
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public long getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(long timestamp) {
+    public void setTimestamp(MeasurementTimestamp timestamp) {
         this.timestamp = timestamp;
     }
 
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
+    public void setCount(MeasurementCount count) {
         this.count = count;
     }
 
-    public Device getDevice() {
-        return this.device;
-    }
-
-    public void setDeviceId(Device device) {
+    public void setDeviceId(DeviceId device) {
         this.device = device;
     }
 

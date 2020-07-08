@@ -1,46 +1,41 @@
 package com.iotservice.sharedkernel.domain.geo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.EqualsAndHashCode;
 import org.springframework.lang.NonNull;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Embeddable
+@MappedSuperclass
+@EqualsAndHashCode
 public class Location {
-    private final double longitude;
+    @Column(name = "longitude")
+    private double longitude;
+    @Column(name = "latitude")
+    @Embedded
+    private double latitude;
 
-    private final double latitude;
+    @SuppressWarnings("unused") // Used by JPA only.
+    protected Location() {
+    }
 
-    public Location(@NonNull double longitude, @NonNull double latitude) {
+    public Location(double longitude, double latitude) {
         this.longitude = longitude;
         this.latitude = latitude;
     }
 
-    public double getLongitude() {
-        return longitude;
-    }
-
-    public double getLatitude() {
+    @NonNull
+    @JsonProperty("latitude")
+    public double latitude() {
         return latitude;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Location location = (Location) o;
-        return Double.compare(location.longitude, longitude) == 0 &&
-                Double.compare(location.latitude, latitude) == 0;
+    @NonNull
+    @JsonProperty("longitude")
+    public double longitude() {
+        return longitude;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(longitude, latitude);
-    }
-
-    @Override
-    public String toString() {
-        return "Location{" +
-                "longitude=" + longitude +
-                ", latitude=" + latitude +
-                '}';
-    }
 }

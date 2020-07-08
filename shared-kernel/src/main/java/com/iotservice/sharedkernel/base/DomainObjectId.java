@@ -11,8 +11,6 @@ import java.util.UUID;
 @MappedSuperclass
 @Getter
 public class DomainObjectId implements ValueObject {
-
-
     private String id;
 
     public DomainObjectId(String id) {
@@ -30,6 +28,10 @@ public class DomainObjectId implements ValueObject {
         } catch (Exception ex) {
             throw new RuntimeException("Could not create new instance of " + idClass, ex);
         }
+    }
+
+    public String getId() {
+        return this.id;
     }
 
 
