@@ -1,32 +1,35 @@
 package com.iotservice.usermanagement.domain.model;
 
+import lombok.Getter;
+
 import javax.persistence.*;
+
 import java.util.Set;
 
+@Getter
 @Entity
 @Table(name = "USERS")
 public class User {
 
+    @Version
+    private long version;
+
     @Id
-    private String username;
+    private UserId id;
 
     @Column(unique = true)
-    private String email;
+    private UserEmail email;
 
-    private String firstName;
+    private UserName name;
 
-    private String lastName;
-
-    private String password;
+    private UserPassword password;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "deviceOwner")
-    private Set<Device> devices;
+    private Set<DeviceId> devices;
 
-    public User(String username, String email, String firstName, String lastName, String password, Set<Device> devices) {
-        this.username = username;
+    public User(UserEmail email, UserName name, UserPassword password, Set<DeviceId> devices) {
         this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.name = name;
         this.password = password;
         this.devices = devices;
     }
@@ -35,55 +38,23 @@ public class User {
 
     }
 
-    public User(String username) {
-        this.username = username;
+    public void setId(UserId id) {
+        this.id = id;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
+    public void setEmail(UserEmail email) {
         this.email = email;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public void setName(UserName name) {
+        this.name = name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
+    public void setPassword(UserPassword password) {
         this.password = password;
     }
 
-    public Set<Device> getDevices() {
-        return devices;
-    }
-
-    public void setDevices(Set<Device> devices) {
+    public void setDevices(Set<DeviceId> devices) {
         this.devices = devices;
     }
 }
